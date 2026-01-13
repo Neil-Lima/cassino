@@ -3,7 +3,6 @@ import Fireworks from 'fireworks-js';
 
 const symbols = ['🐯', '💎', '🍒', '🍋'];
 const maxWins = 5;
-const winProbability = 0.2;
 // deve bater com --symbol-height em index.css para não cortar símbolos
 const SYMBOL_HEIGHT = 96;
 
@@ -55,7 +54,9 @@ export const useCassino = () => {
   }, [winCount]);
 
   useEffect(() => {
-    reelsRef.current.forEach((reel) => {
+    const reels = reelsRef.current;
+
+    reels.forEach((reel) => {
       if (!reel) return;
       reel.querySelectorAll('.symbol').forEach((el) => el.remove());
       for (let i = 0; i < REEL_ELEMENT_COUNT; i++) {
@@ -70,14 +71,14 @@ export const useCassino = () => {
 
     const baseStrip = Array(STRIP_REPEATS).fill(symbols).flat();
 
-    reelStripRef.current = reelsRef.current.map(() => baseStrip);
-    reelNextIndexRef.current = reelsRef.current.map(() => Math.floor(Math.random() * baseStrip.length));
-    reelElementsRef.current = reelsRef.current.map((reel) => {
+    reelStripRef.current = reels.map(() => baseStrip);
+    reelNextIndexRef.current = reels.map(() => Math.floor(Math.random() * baseStrip.length));
+    reelElementsRef.current = reels.map((reel) => {
       if (!reel) return [];
       return Array.from(reel.querySelectorAll('.symbol'));
     });
 
-    reelsRef.current.forEach((reel, reelIndex) => {
+    reels.forEach((reel, reelIndex) => {
       if (!reel) return;
       const strip = reelStripRef.current[reelIndex];
       let nextIdx = reelNextIndexRef.current[reelIndex];
@@ -97,7 +98,7 @@ export const useCassino = () => {
         clearTimeout(autoStopTimeoutRef.current);
         autoStopTimeoutRef.current = null;
       }
-      reelsRef.current.forEach((reel) => {
+      reels.forEach((reel) => {
         if (!reel) return;
         reel.querySelectorAll('.symbol').forEach((el) => el.remove());
       });

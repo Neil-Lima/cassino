@@ -42,7 +42,6 @@ const CassinoComp = () => {
     leverRotation,
     notice,
     gameOverMessage,
-    totalBet,
     machineTransform,
     reelsRef,
     fireworksContainerRef,
